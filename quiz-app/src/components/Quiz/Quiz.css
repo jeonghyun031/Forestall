@@ -1,0 +1,37 @@
+.container {
+    width: 640px;
+    display: flex;
+    margin: auto;
+    margin-top: 150px;
+    background: white;
+    color: #262626;
+    flex-direction: column;
+    gap: 20px;
+    border-radius: 10px;
+    padding: 40px 50px;
+}
+
+.container hr {
+    height: 2px;
+    border: none;
+    background: #707070;
+}
+
+/* question */
+.container h2 {
+    font-size: 27px;
+    font-weight: 500;
+}
+
+/* options */
+.container ul li {
+    display: flex;
+    align-items: center;
+    height: 70px;
+    padding-left: 15px;
+    border: 1px solid #686868;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    font-size: 20px;
+    cursor: pointer;
+}
