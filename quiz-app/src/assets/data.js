@@ -1,6 +1,6 @@
 export const data = [
     {
-        question: "h",
+        question: "고소작업대?",
         option1: "O",
         option2: "X",
         ans: 1,
