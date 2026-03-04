@@ -1,10 +1,14 @@
 * {
   margin: 0;
   padding: 0;
+  box-sizing: border-box;
 }
 
 body {
-  height: 100vh;
-  background-image: linear-gradient(#D8C7EF, #996DFF);
-  font-family: 'poppins';
+  min-height: 100vh;
+  background-color: #f5f5f7;
+  font-family: 'Poppins', 'Inter', -apple-system, sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

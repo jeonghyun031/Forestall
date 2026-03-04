@@ -54,6 +54,7 @@ export default function MultipleChoiceFillBlankQuiz() {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [score, setScore] = useState(0);
   const [quizFinished, setQuizFinished] = useState(false);
+  const [showPopup, setShowPopup] = useState(false);
 
   const currentQuestion = questions[currentQuestionIndex];
 
@@ -87,6 +88,7 @@ export default function MultipleChoiceFillBlankQuiz() {
       if (isCorrect) {
         setScore((prev) => prev + 1);
       }
+      setShowPopup(true);
     }
   };
 
@@ -95,9 +97,16 @@ export default function MultipleChoiceFillBlankQuiz() {
       setCurrentQuestionIndex((prev) => prev + 1);
       setAnswers([null, null]);
       setIsSubmitted(false);
+      setShowPopup(false);
     } else {
       setQuizFinished(true);
     }
+  };
+
+  const handleRetry = () => {
+    setAnswers([null, null]);
+    setIsSubmitted(false);
+    setShowPopup(false);
   };
 
   const handleRestart = () => {
@@ -297,6 +306,43 @@ export default function MultipleChoiceFillBlankQuiz() {
         </div>
 
       </main>
+
+      {/* Pop-up Overlay */}
+      {showPopup && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm animate-in fade-in duration-300">
+          <div className="w-full max-w-xs bg-white rounded-3xl shadow-2xl overflow-hidden transform animate-in zoom-in-95 duration-300 flex flex-col items-center p-8 text-center space-y-6">
+            <div className={`w-20 h-20 rounded-full flex items-center justify-center ${isCorrect ? 'bg-green-100' : 'bg-red-100'}`}>
+              {isCorrect ? (
+                <svg className="w-12 h-12 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                </svg>
+              ) : (
+                <svg className="w-12 h-12 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              )}
+            </div>
+
+            <div className="space-y-2">
+              <h2 className={`text-3xl font-bold ${isCorrect ? 'text-green-600' : 'text-red-500'}`}>
+                {isCorrect ? '정답입니다!' : '오답입니다!'}
+              </h2>
+              {!isCorrect && (
+                <p className="text-zinc-500 font-medium">
+                  정답: <span className="text-black">{currentQuestion.correctAnswers[0]}, {currentQuestion.correctAnswers[1]}</span>
+                </p>
+              )}
+            </div>
+
+            <button
+              onClick={isCorrect ? () => setShowPopup(false) : handleRetry}
+              className="w-full py-4 rounded-xl font-bold text-xl tracking-widest transition-transform active:scale-95 shadow-[0_4px_14px_rgba(0,0,0,0.2)] bg-gradient-to-r from-[#8bede8] via-[#a8c3f5] to-[#d7b2fb]"
+            >
+              {isCorrect ? '확인' : '다시 시도'}
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
