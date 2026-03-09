@@ -2,7 +2,7 @@ import React, { useState, useRef } from 'react'
 import './Quiz.css'
 import { data } from '../../assets/data';
 
-export const Quiz = () => {
+export const Quiz = ({ onReturnToList, onComplete }) => {
 
     let [index, setIndex] = useState(0);
     let [Question, setQuestion] = useState(data[index]);
@@ -47,6 +47,7 @@ export const Quiz = () => {
     const next = () => {
         if (index === data.length - 1) {
             setResult(true);
+            if (onComplete) onComplete();
             return 0;
         }
         setIndex(prevIndex => prevIndex + 1);
@@ -100,7 +101,7 @@ export const Quiz = () => {
                         </p>
                         <div className="result-actions">
                             <button className="main-btn" onClick={reset}>다시 하기</button>
-                            <button className="main-btn toc-btn" onClick={() => window.location.href = '/'}>
+                            <button className="main-btn toc-btn" onClick={onReturnToList}>
                                 목차로 이동
                             </button>
                         </div>
@@ -137,15 +138,9 @@ export const Quiz = () => {
                                 </button>
                             ) : (
                                 <div className="result-actions">
-                                    {index < data.length - 1 ? (
-                                        <button className="main-btn next-btn" onClick={next}>
-                                            다음 문제
-                                        </button>
-                                    ) : (
-                                        <button className="main-btn toc-btn" onClick={() => window.location.href = '/'}>
-                                            목차로 이동
-                                        </button>
-                                    )}
+                                    <button className="main-btn next-btn" onClick={next}>
+                                        {index < data.length - 1 ? '다음 문제' : '목록으로 돌아가기'}
+                                    </button>
                                 </div>
                             )}
                         </div>
@@ -171,6 +166,8 @@ export const Quiz = () => {
                         <button className="popup-btn" onClick={() => {
                             if (index === data.length - 1) {
                                 setShowPopup(false);
+                                if (onComplete) onComplete();
+                                if (onReturnToList) onReturnToList();
                             } else {
                                 next();
                             }
